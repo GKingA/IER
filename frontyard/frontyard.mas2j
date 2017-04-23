@@ -1,0 +1,15 @@
+/* Jason Project */
+
+MAS frontyard {
+
+    infrastructure: Centralised
+
+    agents:
+        lawnmower;
+
+        hedgetrimmer;
+
+        sprinkler;
+
+}
+
