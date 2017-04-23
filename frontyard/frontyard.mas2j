@@ -4,6 +4,8 @@ MAS frontyard {
 
     infrastructure: Centralised
 
+    environment: FrontYard
+
     agents:
         lawnmower;
 
