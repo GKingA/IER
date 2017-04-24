@@ -13,11 +13,6 @@ public class FrontYard extends Environment {
     @Override
     public void init(String[] args) {
         super.init(args);
-        try {
-			addPercept(ASSyntax.parseLiteral("percept(demo)"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
     }
 
     @Override
