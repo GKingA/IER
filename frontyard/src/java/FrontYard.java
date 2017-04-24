@@ -5,6 +5,7 @@ import jason.asSyntax.parser.ParseException;
 import jason.environment.*;
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
+import jason.environment.grid.Location;
 
 import java.util.logging.*;
 import java.awt.Color;
@@ -13,11 +14,13 @@ import java.awt.Graphics;
 
 public class FrontYard extends Environment {
 
-	public static final int GSize = 7; // grid size
+	public static final int GSize = 8; // grid size
     public static final int HEDGE  = 16; // hedge code in grid model
-    public static final int BADHEDGE  = 17; //  badhedge code in grid model
     public static final int GRASS  = 32; // grass code in grid model
-    public static final int BADGRASS  = 33; // bad grass code in grid model
+	
+	public static final Literal wg  = Literal.parseLiteral("water(grass)");
+	public static final Literal mg  = Literal.parseLiteral("mow(grass)");
+	public static final Literal th  = Literal.parseLiteral("trimm(hedge)");
 	
 	private YardModel model;
 	private YardView view;
@@ -31,8 +34,14 @@ public class FrontYard extends Environment {
 		model = new YardModel();
 		view = new YardView(model);
 		model.setView(view);
-		//updatePercepts();
+		updatePercepts();
     }
+	
+	void updatePercepts() {
+		clearPercepts("hedgetrimmer");
+		clearPercepts("lawnmower");
+		clearPercepts("sprinkler");
+	}
 
     @Override
     public boolean executeAction(String agName, Structure action) {
@@ -51,13 +60,35 @@ public class FrontYard extends Environment {
 	
 	class YardModel extends GridWorldModel {
 		private YardModel() {
-			super(GSize, GSize, 2);
+			super(GSize, GSize, 3);
+			
+			// initial location of agents
+            /*try {
+                setAgPos(0, 0, 0);
+            
+                Location r2Loc = new Location(GSize/2, GSize/2);
+                setAgPos(1, r2Loc);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+            
+            // initial location of grass and hedge
+			for (int i = 0; i < GSize; i++) {
+				for (int j = 0; j < GSize; j++) {
+					if(j != 3) {
+						add(GRASS, i, j);
+					}
+					else {
+						add(HEDGE, i, j);
+					}
+				}
+			}
 		}
 	}
 	
 	class YardView extends GridWorldView {
 		public YardView(YardModel model) {
-			super(model, "Front Yard", 600);
+			super(model, "Front Yard", 800);
 			defaultFont = new Font("Arial", Font.BOLD, 18); // change default font
             setVisible(true);
             repaint();
@@ -81,7 +112,7 @@ public class FrontYard extends Environment {
                 g.setColor(Color.black);
             }
 			else if (id == 1) { //lawnmower
-				g.setColor(Color.red);
+				g.setColor(Color.gray);
 			}
 			else { //sprinkler
                 g.setColor(Color.white);                
