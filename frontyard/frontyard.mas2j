@@ -1,17 +1,14 @@
-/* Jason Project */
-
 MAS frontyard {
 
-    infrastructure: Centralised
+	infrastructure: Centralised
 
-    environment: FrontYard
+	environment: FrontYard
 
-    agents:
-        lawnmower;
+	agents:
+		hedgetrimmer;
+		lawnmower;
+		sprinkler;
 
-        hedgetrimmer;
-
-        sprinkler;
-
+	aslSourcePath:
+		"src/asl";
 }
-

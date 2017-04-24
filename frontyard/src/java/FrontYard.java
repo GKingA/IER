@@ -1,6 +1,7 @@
 // Environment code for project frontyard.mas2j
 
 import jason.asSyntax.*;
+import jason.asSyntax.parser.ParseException;
 import jason.environment.*;
 import java.util.logging.*;
 
@@ -12,7 +13,11 @@ public class FrontYard extends Environment {
     @Override
     public void init(String[] args) {
         super.init(args);
-        addPercept(ASSyntax.parseLiteral("percept(demo)"));
+        try {
+			addPercept(ASSyntax.parseLiteral("percept(demo)"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     @Override
