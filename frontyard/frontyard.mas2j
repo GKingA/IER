@@ -6,8 +6,8 @@ MAS frontyard {
 
 	agents:
 		hedgetrimmer;
-		lawnmower;
-		sprinkler;
+		lawnmower #3;
+		sprinkler #3;
 
 	aslSourcePath:
 		"src/asl";
