@@ -9,55 +9,64 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 class YardView extends GridWorldView {
+	
+	private YardModel yardModel;
+	
 	public YardView(YardModel model) {
 		super(model, "Front Yard", 800);
+		yardModel = model;
 		defaultFont = new Font("Arial", Font.BOLD, 18); // change default font
 		setVisible(true);
 		repaint();
 	}
-		
-	@Override
-	public void drawAgent(Graphics g, int x, int y, Color c, int id) {
-		String label = "R"+(id+1);
-		c = Color.blue;
 	
-		/*if (id == 0) {
-			c = Color.yellow;
-			if (((YardModel)model).r1HasGarb) {
-				label += " - G";
-				c = Color.orange;
-			}
-		}*/
-			
-		super.drawAgent(g, x, y, c, -1);
-		if (id == 0) { //hedgetrimmer
-			g.setColor(Color.black);
-		}
-		else if (id == 1) { //lawnmower
-			g.setColor(Color.gray);
-		}
-		else { //sprinkler
-			g.setColor(Color.white);                
-		}
-		super.drawString(g, x, y, defaultFont, label);
-			repaint();
-		}
-
-		public void drawWater(Graphics g, int x, int y) {
-			super.drawObstacle(g, x, y);
-			g.setColor(Color.blue);
-			drawString(g, x, y, defaultFont, "W");
-		}
+	@Override
+	public void draw(Graphics g, int x, int y, int object) {
+		Location lHedgetrimmer = yardModel.getAgPos(0);
+		super.drawAgent(g, lHedgetrimmer.x, lHedgetrimmer.y, Color.lightGray, 0);
 		
-		public void drawMow(Graphics g, int x, int y) {
-			super.drawObstacle(g, x, y);
-			g.setColor(Color.green);
-			drawString(g, x, y, defaultFont, "M");
+		Location lSrinkler1 = yardModel.getAgPos(1);
+		super.drawAgent(g, lSrinkler1.x, lSrinkler1.y, Color.blue, 1);
+		Location lSrinkler2 = yardModel.getAgPos(2);
+		super.drawAgent(g, lSrinkler2.x, lSrinkler2.y, Color.blue, 2);
+		Location lSrinkler3 = yardModel.getAgPos(3);
+		super.drawAgent(g, lSrinkler3.x, lSrinkler3.y, Color.blue, 3);
+		
+		Location lLawnmower1 = yardModel.getAgPos(4);
+		super.drawAgent(g, lLawnmower1.x, lLawnmower1.y, Color.magenta, 4);
+		Location lLawnmower2 = yardModel.getAgPos(5);
+		super.drawAgent(g, lLawnmower2.x, lLawnmower2.y, Color.magenta, 5);
+		Location lLawnmower3 = yardModel.getAgPos(6);
+		super.drawAgent(g, lLawnmower3.x, lLawnmower3.y, Color.magenta, 6);
+		
+		switch(object) {
+			case YardModel.GRASS:
+				if(YardModel.grassDry) {
+					drawDryGrass(g, x, y);
+				}
+				else {
+					drawWetGrass(g, x, y);
+				}
+				break;
+			case YardModel.HEDGE:
+				drawHedge(g, x, y);
+				break;
 		}
-
-		public void drawTrimm(Graphics g, int x, int y) {
-			super.drawObstacle(g, x, y);
-			g.setColor(Color.green);
-			drawString(g, x, y, defaultFont, "T");
-		}
+		repaint();
 	}
+	
+	public void drawDryGrass(Graphics g, int x, int y) {
+		g.setColor(Color.yellow);
+		super.drawObstacle(g, x, y);
+	}
+	
+	public void drawWetGrass(Graphics g, int x, int y) {
+		g.setColor(Color.green);
+		super.drawObstacle(g, x, y);
+	}
+	
+	public void drawHedge(Graphics g, int x, int y) {
+		g.setColor(Color.black);
+		super.drawObstacle(g, x, y);
+	}
+}

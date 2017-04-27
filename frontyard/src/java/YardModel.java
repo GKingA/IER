@@ -9,26 +9,31 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 class YardModel extends GridWorldModel {
+	
+	public static final int GSize = 8; // grid size
+    public static final int HEDGE  = 16; // hedge code in grid model
+    public static final int GRASS  = 32; // grass code in grid model
+    public static boolean grassDry = true; // grass code in grid model
+	
 	public YardModel() {
-		super(FrontYard.GSize, FrontYard.GSize, 7);
+		super(GSize, GSize, 7);
 			
 		// initial location of agents
-		/*try {
-			setAgPos(0, 0, 0);
-			Location r2Loc = new Location(GSize/2, GSize/2);
-			setAgPos(1, r2Loc);
+		try {
+			for(int i = 0; i < 7; i++) {
+				setAgPos(i, i, 0); //AgentID, x, y
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
-         
+		}
 		// initial location of grass and hedge
-		for (int i = 0; i < FrontYard.GSize; i++) {
-			for (int j = 0; j < FrontYard.GSize; j++) {
+		for (int i = 0; i < GSize; i++) {
+			for (int j = 0; j < GSize; j++) {
 				if(j != 3) {
-					add(FrontYard.GRASS, i, j);
+					add(GRASS, i, j);
 				}
 				else {
-					add(FrontYard.HEDGE, i, j);
+					add(HEDGE, i, j);
 				}
 			}
 		}

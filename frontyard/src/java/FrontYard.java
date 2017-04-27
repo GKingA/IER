@@ -14,10 +14,6 @@ import java.awt.Graphics;
 
 public class FrontYard extends Environment {
 
-	public static final int GSize = 8; // grid size
-    public static final int HEDGE  = 16; // hedge code in grid model
-    public static final int GRASS  = 32; // grass code in grid model
-	
 	public static final Literal wg  = Literal.parseLiteral("water(grass)");
 	public static final Literal mg  = Literal.parseLiteral("mow(grass)");
 	public static final Literal th  = Literal.parseLiteral("trimm(hedge)");
@@ -45,7 +41,7 @@ public class FrontYard extends Environment {
 
     @Override
     public boolean executeAction(String agName, Structure action) {
-        logger.info("executing: "+action+"!");
+        logger.info(agName+" executing: "+action+"!");
         if (true) { // you may improve this condition
              informAgsEnvironmentChanged();
         }
