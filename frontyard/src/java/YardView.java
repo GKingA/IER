@@ -52,21 +52,28 @@ class YardView extends GridWorldView {
 				drawHedge(g, x, y);
 				break;
 		}
-		repaint();
+		//repaint();
+	}
+	
+	@Override
+	public void drawObstacle(Graphics g, int x, int y){
+		g.fillRect(x * cellSizeW + 1, y * cellSizeH+1, cellSizeW-1, cellSizeH-1);
+		g.setColor(Color.black);
+		g.drawRect(x * cellSizeW + 2, y * cellSizeH+2, cellSizeW-4, cellSizeH-4);
 	}
 	
 	public void drawDryGrass(Graphics g, int x, int y) {
 		g.setColor(Color.yellow);
-		super.drawObstacle(g, x, y);
+		drawObstacle(g, x, y);
 	}
 	
 	public void drawWetGrass(Graphics g, int x, int y) {
 		g.setColor(Color.green);
-		super.drawObstacle(g, x, y);
+		drawObstacle(g, x, y);
 	}
 	
 	public void drawHedge(Graphics g, int x, int y) {
 		g.setColor(Color.black);
-		super.drawObstacle(g, x, y);
+		drawObstacle(g, x, y);
 	}
 }
