@@ -33,15 +33,15 @@ class YardView extends GridWorldView {
 		super.drawAgent(g, lSrinkler3.x, lSrinkler3.y, Color.blue, 3);
 		
 		Location lLawnmower1 = yardModel.getAgPos(4);
-		super.drawAgent(g, lLawnmower1.x, lLawnmower1.y, Color.magenta, 4);
+		super.drawAgent(g, lLawnmower1.x, lLawnmower1.y, Color.gray, 4);
 		Location lLawnmower2 = yardModel.getAgPos(5);
-		super.drawAgent(g, lLawnmower2.x, lLawnmower2.y, Color.magenta, 5);
+		super.drawAgent(g, lLawnmower2.x, lLawnmower2.y, Color.gray, 5);
 		Location lLawnmower3 = yardModel.getAgPos(6);
-		super.drawAgent(g, lLawnmower3.x, lLawnmower3.y, Color.magenta, 6);
+		super.drawAgent(g, lLawnmower3.x, lLawnmower3.y, Color.gray, 6);
 		
 		switch(object) {
 			case YardModel.GRASS:
-				if(YardModel.grassDry) {
+				if(YardModel.grassDry[x][y]) {
 					drawDryGrass(g, x, y);
 				}
 				else {
@@ -53,13 +53,13 @@ class YardView extends GridWorldView {
 				break;
 		}
 		//repaint();
+		//update(x, y); -> csak egy négyzetet frissít
 	}
 	
 	@Override
 	public void drawObstacle(Graphics g, int x, int y){
 		g.fillRect(x * cellSizeW + 1, y * cellSizeH+1, cellSizeW-1, cellSizeH-1);
 		g.setColor(Color.black);
-		g.drawRect(x * cellSizeW + 2, y * cellSizeH+2, cellSizeW-4, cellSizeH-4);
 	}
 	
 	public void drawDryGrass(Graphics g, int x, int y) {
