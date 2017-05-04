@@ -4,20 +4,39 @@ import jason.environment.grid.GridWorldView;
 import jason.environment.grid.Location;
 
 import java.util.logging.*;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
+
+import javax.swing.*;
 
 class YardView extends GridWorldView {
 	
 	private YardModel yardModel;
 	
+	final JButton water;
+	final JButton mow;
+	final JButton trimm;
+	
 	public YardView(YardModel model) {
 		super(model, "Front Yard", 800);
+		
+		water = new JButton("Water");
+		mow = new JButton("Mow the grass");
+		trimm = new JButton("Trimm the hedges");
+		
 		yardModel = model;
 		defaultFont = new Font("Arial", Font.BOLD, 18); // change default font
+		this.add(Buttons(), BorderLayout.SOUTH);
 		setVisible(true);
 		repaint();
+	}
+	
+	public JPanel Buttons() {
+		JPanel buttons = new JPanel();
+		buttons.add(new JLabel("Use the following buttons to control the agents: "));
+		buttons.add(water);
+		buttons.add(mow);
+		buttons.add(trimm);
+		return buttons;
 	}
 	
 	@Override
@@ -41,15 +60,26 @@ class YardView extends GridWorldView {
 		
 		switch(object) {
 			case YardModel.GRASS:
-				if(YardModel.grassDry[x][y]) {
-					drawDryGrass(g, x, y);
+				if(YardModel.grassDry[x][y] && YardModel.longPlant[x][y]) {
+					drawDryLongGrass(g, x, y);
 				}
-				else {
-					drawWetGrass(g, x, y);
+				else if(!YardModel.grassDry[x][y] && YardModel.longPlant[x][y]){
+					drawWetLongGrass(g, x, y);
+				}
+				else if(YardModel.grassDry[x][y] && !YardModel.longPlant[x][y]) {
+					drawDryShortGrass(g, x, y);
+				}
+				else if(!YardModel.grassDry[x][y] && !YardModel.longPlant[x][y]){
+					drawWetShortGrass(g, x, y);
 				}
 				break;
 			case YardModel.HEDGE:
-				drawHedge(g, x, y);
+				if(YardModel.longPlant[x][y]) {
+					drawLongHedge(g, x, y);
+				}
+				else {
+					drawShortHedge(g, x, y);
+				}
 				break;
 		}
 		//repaint();
@@ -62,18 +92,39 @@ class YardView extends GridWorldView {
 		g.setColor(Color.black);
 	}
 	
-	public void drawDryGrass(Graphics g, int x, int y) {
+	public void drawDryLongGrass(Graphics g, int x, int y) {
 		g.setColor(Color.yellow);
 		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "L");
 	}
 	
-	public void drawWetGrass(Graphics g, int x, int y) {
+	public void drawWetLongGrass(Graphics g, int x, int y) {
 		g.setColor(Color.green);
 		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "L");
 	}
 	
-	public void drawHedge(Graphics g, int x, int y) {
-		g.setColor(Color.black);
+		public void drawDryShortGrass(Graphics g, int x, int y) {
+		g.setColor(Color.yellow);
 		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "S");
+	}
+	
+	public void drawWetShortGrass(Graphics g, int x, int y) {
+		g.setColor(Color.green);
+		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "S");
+	}
+	
+	public void drawLongHedge(Graphics g, int x, int y) {
+		g.setColor(Color.darkGray);
+		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "L");
+	}
+	
+		public void drawShortHedge(Graphics g, int x, int y) {
+		g.setColor(Color.darkGray);
+		drawObstacle(g, x, y);
+		drawString(g, x, y, defaultFont, "S");
 	}
 }

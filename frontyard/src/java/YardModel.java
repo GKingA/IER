@@ -14,13 +14,16 @@ class YardModel extends GridWorldModel {
 	public static final int GSize = 18; // grid size
     public static final int HEDGE  = 16; // hedge code in grid model
     public static final int GRASS  = 32; // grass code in grid model
-    public static boolean[][] grassDry; // grass code in grid model
+    public static boolean[][] grassDry;
+    public static boolean[][] longPlant;
 	
 	public YardModel() {
 		super(GSize, GSize, 7);
 		grassDry = new boolean[GSize][GSize];
+		longPlant = new boolean[GSize][GSize];
 		for(int i = 0; i < GSize; i++) {
 			Arrays.fill(grassDry[i], Boolean.TRUE);
+			Arrays.fill(longPlant[i], Boolean.TRUE);
 		}
 			
 		// initial location of agents
@@ -44,91 +47,43 @@ class YardModel extends GridWorldModel {
 		}
 	}
 	
+	public void checkNeighboursWater(Location l, int r) {
+		for(int i = 0; i <= r; i++) {
+			if(l.x+i < GSize) {
+				grassDry[l.x+i][l.y] = false;
+			}
+			if(l.y+i < GSize) {
+				grassDry[l.x][l.y+i] = false;
+			}
+			if(l.x-i >= 0) {
+				grassDry[l.x-i][l.y] = false;
+			}
+			if(l.y-i >= 0) {
+				grassDry[l.x][l.y-i] = false;
+			}
+			if(l.x+i < GSize && l.y-i >= 0) {
+				grassDry[l.x+i][l.y-i] = false;
+			}
+			if(l.x-i >= 0 && l.y+i < GSize) {
+				grassDry[l.x-i][l.y+i] = false;
+			}
+			if(l.x-i >= 0 && l.y-i >= 0) {
+				grassDry[l.x-i][l.y-i] = false;
+			}
+			if(l.x+i < GSize && l.y+i < GSize) {
+				grassDry[l.x+i][l.y+i] = false;
+			}
+		}
+	}
+	
 	public void water() {
 		Location lSprinkler1 = getAgPos(1);
 		Location lSprinkler2 = getAgPos(2);
 		Location lSprinkler3 = getAgPos(3);
 		int r = GSize/3;
-		for(int i = 0; i <= r; i++) {
-			
-			//Sprinkler 1
-			if(lSprinkler1.x+i < GSize) {
-				grassDry[lSprinkler1.x+i][lSprinkler1.y] = true;
-			}
-			if(lSprinkler1.y+i < GSize) {
-				grassDry[lSprinkler1.x][lSprinkler1.y+i] = true;
-			}
-			if(lSprinkler1.x-i >= 0) {
-				grassDry[lSprinkler1.x-i][lSprinkler1.y] = true;
-			}
-			if(lSprinkler1.y-i >= 0) {
-				grassDry[lSprinkler1.x][lSprinkler1.y-i] = true;
-			}
-			if(lSprinkler1.x+i < GSize && lSprinkler1.y-i >= 0) {
-				grassDry[lSprinkler1.x+i][lSprinkler1.y-i] = true;
-			}
-			if(lSprinkler1.x-i >= 0 && lSprinkler1.y+i < GSize) {
-				grassDry[lSprinkler1.x-i][lSprinkler1.y+i] = true;
-			}
-			if(lSprinkler1.x-i >= 0 && lSprinkler1.y-i >= 0) {
-				grassDry[lSprinkler1.x-i][lSprinkler1.y-i] = true;
-			}
-			if(lSprinkler1.x+i < GSize && lSprinkler1.y+i < GSize) {
-				grassDry[lSprinkler1.x+i][lSprinkler1.y+i] = true;
-			}
-			
-			//Sprinkler 2
-			if(lSprinkler2.x+i < GSize) {
-				grassDry[lSprinkler2.x+i][lSprinkler2.y] = true;
-			}
-			if(lSprinkler2.y+i < GSize) {
-				grassDry[lSprinkler2.x][lSprinkler2.y+i] = true;
-			}
-			if(lSprinkler2.x-i >= 0) {
-				grassDry[lSprinkler2.x-i][lSprinkler2.y] = true;
-			}
-			if(lSprinkler2.y-i >= 0) {
-				grassDry[lSprinkler2.x][lSprinkler2.y-i] = true;
-			}
-			if(lSprinkler2.x+i < GSize && lSprinkler2.y-i >= 0) {
-				grassDry[lSprinkler2.x+i][lSprinkler2.y-i] = true;
-			}
-			if(lSprinkler2.x-i >= 0 && lSprinkler2.y+i < GSize) {
-				grassDry[lSprinkler2.x-i][lSprinkler2.y+i] = true;
-			}
-			if(lSprinkler2.x-i >= 0 && lSprinkler2.y-i >= 0) {
-				grassDry[lSprinkler2.x-i][lSprinkler2.y-i] = true;
-			}
-			if(lSprinkler2.x+i < GSize && lSprinkler2.y+i < GSize) {
-				grassDry[lSprinkler2.x+i][lSprinkler2.y+i] = true;
-			}
-			
-			//Sprinkler 3
-			if(lSprinkler3.x+i < GSize) {
-				grassDry[lSprinkler3.x+i][lSprinkler3.y] = true;
-			}
-			if(lSprinkler3.y+i < GSize) {
-				grassDry[lSprinkler3.x][lSprinkler3.y+i] = true;
-			}
-			if(lSprinkler3.x-i >= 0) {
-				grassDry[lSprinkler3.x-i][lSprinkler3.y] = true;
-			}
-			if(lSprinkler3.y-i >= 0) {
-				grassDry[lSprinkler3.x][lSprinkler3.y-i] = true;
-			}
-			if(lSprinkler3.x+i < GSize && lSprinkler3.y-i >= 0) {
-				grassDry[lSprinkler3.x+i][lSprinkler3.y-i] = true;
-			}
-			if(lSprinkler3.x-i >= 0 && lSprinkler3.y+i < GSize) {
-				grassDry[lSprinkler3.x-i][lSprinkler3.y+i] = true;
-			}
-			if(lSprinkler3.x-i >= 0 && lSprinkler3.y-i >= 0) {
-				grassDry[lSprinkler3.x-i][lSprinkler3.y-i] = true;
-			}
-			if(lSprinkler3.x+i < GSize && lSprinkler3.y+i < GSize) {
-				grassDry[lSprinkler3.x+i][lSprinkler3.y+i] = true;
-			}
-		}
+		checkNeighboursWater(lSprinkler1, r);
+		checkNeighboursWater(lSprinkler2, r);
+		checkNeighboursWater(lSprinkler3, r);
 	}
 }
 
