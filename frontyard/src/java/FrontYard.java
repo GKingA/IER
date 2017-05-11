@@ -14,9 +14,10 @@ import java.awt.Graphics;
 
 public class FrontYard extends Environment {
 
-	public static final Literal wg  = Literal.parseLiteral("water(grass)");
-	public static final Literal mg  = Literal.parseLiteral("mow(grass)");
-	public static final Literal th  = Literal.parseLiteral("trimm(hedge)");
+	public static final Literal waterGrass  = Literal.parseLiteral("water(grass)");
+	public static final Literal mowGrass  = Literal.parseLiteral("mow(grass)");
+	public static final Literal trimmHedge  = Literal.parseLiteral("trimm(hedge)");
+	public static final Literal move = Literal.parseLiteral("move(slot)");
 	
 	private YardModel model;
 	private YardView view;
@@ -34,9 +35,24 @@ public class FrontYard extends Environment {
     }
 	
 	void updatePercepts() {
-		clearPercepts("hedgetrimmer");
-		clearPercepts("lawnmower");
-		clearPercepts("sprinkler");
+		clearPercepts();
+		Location lHedgetrimmer = model.getAgPos(0);
+		Location lSprinkler1 = model.getAgPos(1);
+		Location lSprinkler2 = model.getAgPos(2);
+		Location lSprinkler3 = model.getAgPos(3);
+		Location lLawnmower1 = model.getAgPos(4);
+		Location lLawnmower2 = model.getAgPos(5);
+		Location lLawnmower3 = model.getAgPos(6);
+		
+		Literal posHedgetrimmer = Literal.parseLiteral("pos(hedgetrimmer,"+lHedgetrimmer.x+","+lHedgetrimmer.y+")");
+		Literal posLawnmower1 = Literal.parseLiteral("pos(lawnmower1,"+lLawnmower1.x+","+lLawnmower1.y+")");
+		Literal posLawnmower2 = Literal.parseLiteral("pos(lawnmower1,"+lLawnmower2.x+","+lLawnmower2.y+")");
+		Literal posLawnmower3 = Literal.parseLiteral("pos(lawnmower1,"+lLawnmower3.x+","+lLawnmower3.y+")");
+		
+		addPercept(posHedgetrimmer);
+		addPercept(posLawnmower1);
+		addPercept(posLawnmower2);
+		addPercept(posLawnmower3);
 	}
 
     @Override

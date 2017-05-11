@@ -10,5 +10,5 @@ MAS frontyard {
 		sprinkler #3;
 
 	aslSourcePath:
-		"src/asl";
+		"src";
 }

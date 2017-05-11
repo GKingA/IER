@@ -3,8 +3,10 @@ import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.GridWorldView;
 import jason.environment.grid.Location;
 
-import java.util.logging.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.*;
 
 import javax.swing.*;
 
@@ -12,9 +14,9 @@ class YardView extends GridWorldView {
 	
 	private YardModel yardModel;
 	
-	final JButton water;
-	final JButton mow;
-	final JButton trimm;
+	public static JButton water;
+	public static JButton mow;
+	public static JButton trimm;
 	
 	public YardView(YardModel model) {
 		super(model, "Front Yard", 800);

@@ -76,6 +76,26 @@ class YardModel extends GridWorldModel {
 		}
 	}
 	
+	public void mow() {
+		for(int i = 0; i < GSize; i++) {
+			for(int j = 0; j < GSize; j++) {
+				if(longPlant[i][j] && this.hasObject(GRASS, i, j)) {
+					longPlant[i][j] = false;
+				}
+			}
+		}
+	}
+
+	public void trimm() {
+		for(int i = 0; i < GSize; i++) {
+			for(int j = 0; j < GSize; j++) {
+				if(longPlant[i][j] && this.hasObject(HEDGE, i, j)) {
+					longPlant[i][j] = false;
+				}
+			}
+		}
+	}
+	
 	public void water() {
 		Location lSprinkler1 = getAgPos(1);
 		Location lSprinkler2 = getAgPos(2);
