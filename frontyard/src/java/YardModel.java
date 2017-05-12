@@ -28,9 +28,13 @@ class YardModel extends GridWorldModel {
 			
 		// initial location of agents
 		try {
-			for(int i = 0; i < 7; i++) {
-				setAgPos(i, i, 0); //AgentID, x, y
-			}
+			setAgPos(0, 3, 0); //hedgetrimmer
+			setAgPos(1, 3, 3); //sprinkler1
+			setAgPos(2, GSize-3, GSize-3); //sprinkler2
+			setAgPos(3, 3, GSize-3); //sprinkler3
+			setAgPos(4, GSize/3, 4); //lawnmower1
+			setAgPos(5, GSize/3, 5); //lawnmower2
+			setAgPos(6, GSize/3, 6); //lawnmower3
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,29 +53,19 @@ class YardModel extends GridWorldModel {
 	
 	public void checkNeighboursWater(Location l, int r) {
 		for(int i = 0; i <= r; i++) {
-			if(l.x+i < GSize) {
-				grassDry[l.x+i][l.y] = false;
-			}
-			if(l.y+i < GSize) {
-				grassDry[l.x][l.y+i] = false;
-			}
-			if(l.x-i >= 0) {
-				grassDry[l.x-i][l.y] = false;
-			}
-			if(l.y-i >= 0) {
-				grassDry[l.x][l.y-i] = false;
-			}
-			if(l.x+i < GSize && l.y-i >= 0) {
-				grassDry[l.x+i][l.y-i] = false;
-			}
-			if(l.x-i >= 0 && l.y+i < GSize) {
-				grassDry[l.x-i][l.y+i] = false;
-			}
-			if(l.x-i >= 0 && l.y-i >= 0) {
-				grassDry[l.x-i][l.y-i] = false;
-			}
-			if(l.x+i < GSize && l.y+i < GSize) {
-				grassDry[l.x+i][l.y+i] = false;
+			for(int j = 0; j <= r; j++) {
+				if(l.x + i < GSize && l.y + j < GSize) {
+					grassDry[l.x+i][l.y+j] = false;
+				}
+				if(l.x - i >= 0 && l.y + j < GSize) {
+					grassDry[l.x-i][l.y+j] = false;
+				}
+				if(l.x - i >= 0 && l.y - j >= 0) {
+					grassDry[l.x-i][l.y-j] = false;
+				}
+				if(l.x + i < GSize && l.y - j >= 0) {
+					grassDry[l.x+i][l.y-j] = false;
+				}
 			}
 		}
 	}
@@ -91,6 +85,24 @@ class YardModel extends GridWorldModel {
 			for(int j = 0; j < GSize; j++) {
 				if(longPlant[i][j] && this.hasObject(HEDGE, i, j)) {
 					longPlant[i][j] = false;
+				}
+			}
+		}
+	}
+	
+	public void move(int agent) {
+		Location l = getAgPos(agent);
+		for(int i = 0; i < 7; i++){
+			if(i != agent && i != 1 && i != 2 && i != 3) {
+				if(l.equals(getAgPos(i))){
+					l.x++;
+					if(l.x == GSize) {
+						l.x = 0;
+						l.y++;
+						if(l.y == GSize) {
+							l.y = GSize - 1;
+						}
+					}
 				}
 			}
 		}
