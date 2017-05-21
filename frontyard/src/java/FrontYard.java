@@ -105,6 +105,7 @@ public class FrontYard extends Environment {
         }
 		catch (Exception e) {}
         informAgsEnvironmentChanged();
+		view.repaint();
         return true;
     }
 
